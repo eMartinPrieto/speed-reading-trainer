@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Reading Trainer - Tech 101</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 2px;
+            max-width: 800px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 40px 30px 30px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .header h1 {
+            font-size: 1.5em;
+            font-weight: 300;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .mode-selector {
+            padding: 20px 30px;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            gap: 10px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 2px;
+            color: #999;
+            font-size: 13px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .mode-btn:hover {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .mode-btn.active {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .input-section {
+            padding: 30px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .input-section.hidden {
+            display: none;
+        }
+
+        .input-section textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            background: #000;
+            border: 1px solid #2a2a2a;
+            border-radius: 2px;
+            color: #fff;
+            font-size: 15px;
+            resize: vertical;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .input-section textarea:focus {
+            outline: none;
+            border-color: #4a4a4a;
+        }
+
+        .input-section textarea::placeholder {
+            color: #555;
+        }
+
+        .test-section {
+            padding: 30px;
+            border-bottom: 1px solid #1a1a1a;
+            display: none;
+        }
+
+        .test-section.active {
+            display: block;
+        }
+
+        .test-info {
+            color: #999;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .test-message {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 2px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 15px;
+            line-height: 1.6;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .controls {
+            padding: 30px;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .control-group.hidden {
+            display: none;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 12px;
+            color: #999;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .speed-control input[type="range"] {
+            flex: 1;
+            height: 2px;
+            border-radius: 1px;
+            background: #2a2a2a;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .speed-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .speed-control input[type="range"]::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            border: none;
+        }
+
+        .speed-value {
+            min-width: 80px;
+            text-align: right;
+            font-weight: 300;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 24px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 2px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover:not(:disabled) {
+            background: #2a2a2a;
+            border-color: #3a3a3a;
+        }
+
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #e0e0e0;
+            border-color: #e0e0e0;
+        }
+
+        .reader-display {
+            display: flex;
+            background: #000;
+            padding: 100px 30px;
+            min-height: 350px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .reader-display.waiting .word {
+            opacity: 0.3;
+        }
+
+        .word-container {
+            position: relative;
+            text-align: center;
+        }
+
+        .crosshair-line {
+            position: absolute;
+            background: #1a1a1a;
+        }
+
+        .crosshair-vertical {
+            width: 1px;
+            height: 120%;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .crosshair-horizontal {
+            height: 1px;
+            width: 100%;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .word {
+            font-size: 4.5em;
+            font-weight: 300;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            position: relative;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .word .highlight {
+            color: #888;
+            font-weight: 400;
+        }
+
+        .progress-bar-container {
+            background: #000;
+            padding: 20px 30px;
+            display: none;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .progress-bar-container.active {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 2px;
+            background: #1a1a1a;
+            border-radius: 1px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #fff;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .progress-text {
+            color: #555;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .newsletter {
+            padding: 30px;
+            border-top: 1px solid #1a1a1a;
+            text-align: center;
+        }
+
+        .newsletter-logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .newsletter-text {
+            color: #999;
+            font-size: 13px;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-link {
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid #2a2a2a;
+            transition: border-color 0.2s;
+        }
+
+        .newsletter-link:hover {
+            border-color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .word {
+                font-size: 3em;
+            }
+            
+            .header h1 {
+                font-size: 1.3em;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+
+            .mode-selector {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Speed Reading</h1>
+        </div>
+
+        <div class="mode-selector">
+            <button class="mode-btn active" id="normalModeBtn">Lectura Normal</button>
+            <button class="mode-btn" id="testModeBtn">Modo Test</button>
+        </div>
+
+        <div class="input-section" id="inputSection">
+            <textarea id="textInput" placeholder="Pega tu texto aquí..."></textarea>
+        </div>
+
+        <div class="test-section" id="testSection">
+            <div class="test-info">
+                Prepárate para probar diferentes velocidades de lectura. Empezaremos lento y aceleraremos gradualmente. ¿Cuál es tu límite?
+            </div>
+            <div class="test-message" id="testMessage">
+                Pulsa "Iniciar Test" para comenzar
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-group" id="speedControlGroup">
+                <label>Velocidad</label>
+                <div class="speed-control">
+                    <input type="range" id="speedSlider" min="100" max="1000" value="300" step="50">
+                    <span class="speed-value"><span id="speedDisplay">300</span> wpm</span>
+                </div>
+            </div>
+
+            <div class="button-group" id="normalButtons">
+                <button class="btn-primary" id="startBtn">Leer</button>
+                <button id="pauseBtn" disabled>Pausar</button>
+                <button id="stopBtn" disabled>Detener</button>
+            </div>
+
+            <div class="button-group" id="testButtons" style="display: none;">
+                <button class="btn-primary" id="startTestBtn">Iniciar Test</button>
+                <button id="nextTestBtn" disabled>Siguiente</button>
+                <button id="stopTestBtn" disabled>Detener Test</button>
+            </div>
+        </div>
+
+        <div class="reader-display waiting" id="readerDisplay">
+            <div class="crosshair-line crosshair-vertical"></div>
+            <div class="crosshair-line crosshair-horizontal"></div>
+            <div class="word-container">
+                <div class="word" id="wordDisplay">¿Listo?</div>
+            </div>
+        </div>
+
+        <div class="progress-bar-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0 / 0 palabras</div>
+        </div>
+
+        <div class="newsletter">
+            <img src="https://substackcdn.com/image/fetch/$s_!iMFX!,e_trim:10:white/e_trim:10:transparent/h_72,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F949f2e30-1dce-45db-b608-1a42e6178eef_4902x1235.png" alt="Tech 101" class="newsletter-logo">
+            <p class="newsletter-text">
+                Suscríbete a <a href="https://tech101.substack.com/welcome" target="_blank" class="newsletter-link">Tech 101</a>, la newsletter que cada lunes te resume las noticias más relevantes en tecnología e innovación.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let words = [];
+        let currentIndex = 0;
+        let isPlaying = false;
+        let isPaused = false;
+        let intervalId = null;
+        let wpm = 300;
+        let isTestMode = false;
+        let currentTestLevel = 0;
+
+        // Textos y velocidades para el modo test
+        const testLevels = [
+            { 
+                wpm: 100, 
+                text: "La lectura rápida es una habilidad que todos podemos desarrollar con práctica constante y dedicación",
+                message: "¡Empecemos! Este es un ritmo muy tranquilo. Pulsa 'Siguiente' cuando termines."
+            },
+            { 
+                wpm: 200, 
+                text: "Los buenos lectores no leen palabra por palabra sino que capturan grupos de palabras de un solo vistazo",
+                message: "Bien, ¿verdad? Ahora vamos a duplicar la velocidad. ¿Preparado?"
+            },
+            { 
+                wpm: 300, 
+                text: "La velocidad promedio de lectura de un adulto es de aproximadamente trescientas palabras por minuto",
+                message: "¡Excelente! Esta es la velocidad promedio. Vamos a subir un poco más el ritmo."
+            },
+            { 
+                wpm: 400, 
+                text: "Entrenar tu vista para seguir el texto sin subvocalizar mejora significativamente tu velocidad de lectura",
+                message: "¡Muy bien! Ya estás por encima de la media. ¿Puedes seguir este ritmo?"
+            },
+            { 
+                wpm: 500, 
+                text: "Los lectores expertos pueden procesar hasta quinientas palabras por minuto manteniendo buena comprensión",
+                message: "¡Impresionante! Estás alcanzando velocidades de lectura avanzada. ¿Listo para más?"
+            },
+            { 
+                wpm: 600, 
+                text: "A esta velocidad tu cerebro debe trabajar en modo automático procesando la información visual directamente",
+                message: "¡Increíble! Esta velocidad requiere mucha concentración. Vamos a seguir subiendo."
+            },
+            { 
+                wpm: 700, 
+                text: "Solo lectores muy experimentados pueden mantener la comprensión a esta velocidad tan elevada y exigente",
+                message: "¡Brutal! Estás en territorio de lectura rápida profesional. ¿Puedes más?"
+            },
+            { 
+                wpm: 800, 
+                text: "A ochocientas palabras por minuto estás leyendo casi tan rápido como puedes pensar conscientemente",
+                message: "¡Extraordinario! Pocas personas llegan a este nivel. Última subida fuerte."
+            },
+            { 
+                wpm: 900, 
+                text: "Velocidad extrema requiere años de práctica y entrenamiento intensivo para mantener cualquier nivel de comprensión",
+                message: "¡Casi imposible! ¿Podrás con el nivel máximo?"
+            },
+            { 
+                wpm: 1000, 
+                text: "Mil palabras por minuto es el límite máximo de velocidad manteniendo algún grado de comprensión lectora",
+                message: "¡NIVEL MÁXIMO! Has completado el test. ¿Cuál fue tu límite real?"
+            }
+        ];
+
+        // Elementos del DOM
+        const textInput = document.getElementById('textInput');
+        const speedSlider = document.getElementById('speedSlider');
+        const speedDisplay = document.getElementById('speedDisplay');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const readerDisplay = document.getElementById('readerDisplay');
+        const wordDisplay = document.getElementById('wordDisplay');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+
+        // Elementos modo test
+        const normalModeBtn = document.getElementById('normalModeBtn');
+        const testModeBtn = document.getElementById('testModeBtn');
+        const inputSection = document.getElementById('inputSection');
+        const testSection = document.getElementById('testSection');
+        const testMessage = document.getElementById('testMessage');
+        const speedControlGroup = document.getElementById('speedControlGroup');
+        const normalButtons = document.getElementById('normalButtons');
+        const testButtons = document.getElementById('testButtons');
+        const startTestBtn = document.getElementById('startTestBtn');
+        const nextTestBtn = document.getElementById('nextTestBtn');
+        const stopTestBtn = document.getElementById('stopTestBtn');
+
+        // Event Listeners para cambio de modo
+        normalModeBtn.addEventListener('click', () => {
+            isTestMode = false;
+            normalModeBtn.classList.add('active');
+            testModeBtn.classList.remove('active');
+            inputSection.classList.remove('hidden');
+            testSection.classList.remove('active');
+            speedControlGroup.classList.remove('hidden');
+            normalButtons.style.display = 'flex';
+            testButtons.style.display = 'none';
+            stopReading();
+            resetDisplay();
+        });
+
+        testModeBtn.addEventListener('click', () => {
+            isTestMode = true;
+            testModeBtn.classList.add('active');
+            normalModeBtn.classList.remove('active');
+            inputSection.classList.add('hidden');
+            testSection.classList.add('active');
+            speedControlGroup.classList.add('hidden');
+            normalButtons.style.display = 'none';
+            testButtons.style.display = 'flex';
+            stopReading();
+            resetDisplay();
+            currentTestLevel = 0;
+            testMessage.textContent = "Pulsa 'Iniciar Test' para comenzar";
+        });
+
+        // Event Listeners modo test
+        startTestBtn.addEventListener('click', startTest);
+        nextTestBtn.addEventListener('click', nextTestLevel);
+        stopTestBtn.addEventListener('click', () => {
+            stopReading();
+            resetDisplay();
+            currentTestLevel = 0;
+            testMessage.textContent = "Test detenido. Pulsa 'Iniciar Test' para volver a empezar";
+            startTestBtn.disabled = false;
+            nextTestBtn.disabled = true;
+            stopTestBtn.disabled = true;
+        });
+
+        function startTest() {
+            currentTestLevel = 0;
+            startTestLevel();
+        }
+
+        function startTestLevel() {
+            const level = testLevels[currentTestLevel];
+            words = level.text.split(/\s+/).filter(word => word.length > 0);
+            currentIndex = 0;
+            wpm = level.wpm;
+            speedDisplay.textContent = wpm;
+            speedSlider.value = wpm;
+            
+            testMessage.textContent = level.message;
+            startTestBtn.disabled = true;
+            nextTestBtn.disabled = true;
+            stopTestBtn.disabled = false;
+            
+            startReading();
+        }
+
+        function nextTestLevel() {
+            currentTestLevel++;
+            if (currentTestLevel < testLevels.length) {
+                startTestLevel();
+            } else {
+                stopReading();
+                resetDisplay();
+                testMessage.textContent = "¡Test completado! Has probado todas las velocidades. Pulsa 'Iniciar Test' para volver a empezar.";
+                startTestBtn.disabled = false;
+                nextTestBtn.disabled = true;
+                stopTestBtn.disabled = true;
+                currentTestLevel = 0;
+            }
+        }
+
+        // Event Listeners modo normal
+        speedSlider.addEventListener('input', (e) => {
+            wpm = parseInt(e.target.value);
+            speedDisplay.textContent = wpm;
+            
+            if (isPlaying && !isPaused && !isTestMode) {
+                stopReading();
+                startReading();
+            }
+        });
+
+        startBtn.addEventListener('click', () => {
+            const text = textInput.value.trim();
+            if (!text) {
+                alert('Por favor, pega un texto para leer');
+                return;
+            }
+
+            if (isPaused) {
+                resumeReading();
+            } else {
+                words = text.split(/\s+/).filter(word => word.length > 0);
+                currentIndex = 0;
+                startReading();
+            }
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                pauseReading();
+            }
+        });
+
+        stopBtn.addEventListener('click', () => {
+            stopReading();
+            resetDisplay();
+        });
+
+        function startReading() {
+            isPlaying = true;
+            isPaused = false;
+            
+            readerDisplay.classList.remove('waiting');
+            progressContainer.classList.add('active');
+            
+            if (isTestMode) {
+                startTestBtn.disabled = true;
+                nextTestBtn.disabled = true;
+                stopTestBtn.disabled = false;
+            } else {
+                startBtn.textContent = 'Continuar';
+                startBtn.disabled = true;
+                pauseBtn.disabled = false;
+                stopBtn.disabled = false;
+                textInput.disabled = true;
+            }
+
+            const delay = 60000 / wpm;
+            
+            intervalId = setInterval(() => {
+                if (currentIndex < words.length) {
+                    displayWord(words[currentIndex]);
+                    updateProgress();
+                    currentIndex++;
+                } else {
+                    stopReading();
+                    if (isTestMode) {
+                        nextTestBtn.disabled = false;
+                    } else {
+                        resetDisplay();
+                    }
+                }
+            }, delay);
+        }
+
+        function pauseReading() {
+            isPaused = true;
+            isPlaying = false;
+            clearInterval(intervalId);
+            
+            startBtn.disabled = false;
+            pauseBtn.disabled = true;
+            startBtn.textContent = 'Continuar';
+        }
+
+        function resumeReading() {
+            startReading();
+        }
+
+        function stopReading() {
+            isPlaying = false;
+            isPaused = false;
+            clearInterval(intervalId);
+            
+            if (!isTestMode) {
+                startBtn.disabled = false;
+                pauseBtn.disabled = true;
+                stopBtn.disabled = true;
+                textInput.disabled = false;
+                startBtn.textContent = 'Leer';
+            }
+        }
+
+        function resetDisplay() {
+            readerDisplay.classList.add('waiting');
+            progressContainer.classList.remove('active');
+            wordDisplay.innerHTML = '¿Listo?';
+            progressFill.style.width = '0%';
+            progressText.textContent = '0 / 0 palabras';
+            currentIndex = 0;
+        }
+
+        function displayWord(word) {
+            const length = word.length;
+            const focusIndex = Math.floor(length / 3);
+            
+            let html = '';
+            for (let i = 0; i < word.length; i++) {
+                if (i === focusIndex) {
+                    html += `<span class="highlight">${word[i]}</span>`;
+                } else {
+                    html += word[i];
+                }
+            }
+            
+            wordDisplay.innerHTML = html;
+        }
+
+        function updateProgress() {
+            const percentage = ((currentIndex + 1) / words.length) * 100;
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = `${currentIndex + 1} / ${words.length} palabras`;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && textInput !== document.activeElement) {
+                e.preventDefault();
+                if (isTestMode) {
+                    if (!isPlaying && !nextTestBtn.disabled) {
+                        nextTestBtn.click();
+                    }
+                } else {
+                    if (!isPlaying && !isPaused) {
+                        startBtn.click();
+                    } else if (isPlaying) {
+                        pauseBtn.click();
+                    } else if (isPaused) {
+                        startBtn.click();
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
