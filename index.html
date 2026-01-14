@@ -108,6 +108,52 @@
             color: #555;
         }
 
+        /* ✅ Ejemplos debajo del textarea */
+        .examples {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .examples-title {
+            color: #777;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .examples-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .example-item {
+            width: 100%;
+            text-align: left;
+            padding: 12px 14px;
+            background: #0b0b0b;
+            border: 1px solid #1a1a1a;
+            border-radius: 2px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 0.2px;
+        }
+
+        .example-item:hover {
+            background: #151515;
+            border-color: #2a2a2a;
+        }
+
+        .example-item:active {
+            transform: translateY(1px);
+        }
+
         .test-section {
             padding: 30px;
             border-bottom: 1px solid #1a1a1a;
@@ -372,11 +418,11 @@
             .word {
                 font-size: 3em;
             }
-            
+
             .header h1 {
                 font-size: 1.3em;
             }
-            
+
             .button-group {
                 flex-direction: column;
             }
@@ -400,6 +446,12 @@
 
         <div class="input-section" id="inputSection">
             <textarea id="textInput" placeholder="Pega tu texto aquí..."></textarea>
+
+            <!-- ✅ Ejemplos (no se muestran en modo test porque inputSection se oculta) -->
+            <div class="examples" id="examples">
+                <div class="examples-title">O prueba con un ejemplo:</div>
+                <div class="examples-list" id="examplesList"></div>
+            </div>
         </div>
 
         <div class="test-section" id="testSection">
@@ -449,7 +501,10 @@
         </div>
 
         <div class="newsletter">
-           <a href="https://tech101.substack.com/welcome" target="_blank" class="newsletter-link"><img src="https://substackcdn.com/image/fetch/$s_!iMFX!,e_trim:10:white/e_trim:10:transparent/h_72,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F949f2e30-1dce-45db-b608-1a42e6178eef_4902x1235.png" alt="Tech 101" class="newsletter-logo"></a>
+            <a href="https://tech101.substack.com/welcome" target="_blank" class="newsletter-link">
+                <img src="https://substackcdn.com/image/fetch/$s_!iMFX!,e_trim:10:white/e_trim:10:transparent/h_72,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F949f2e30-1dce-45db-b608-1a42e6178eef_4902x1235.png"
+                     alt="Tech 101" class="newsletter-logo">
+            </a>
             <p class="newsletter-text">
                 Suscríbete a <a href="https://tech101.substack.com/welcome" target="_blank" class="newsletter-link">Tech 101</a>, la newsletter que cada lunes te resume las noticias más relevantes en tecnología e innovación.
             </p>
@@ -469,53 +524,53 @@
 
         // Textos y velocidades para el modo test
         const testLevels = [
-            { 
-                wpm: 100, 
+            {
+                wpm: 100,
                 text: "La lectura rápida es una habilidad que todos podemos desarrollar con práctica constante y dedicación",
                 message: "¡Empecemos! Este es un ritmo muy tranquilo. Pulsa 'Siguiente' cuando termines."
             },
-            { 
-                wpm: 200, 
+            {
+                wpm: 200,
                 text: "Los buenos lectores no leen palabra por palabra sino que capturan grupos de palabras de un solo vistazo",
                 message: "Bien, ¿verdad? Ahora vamos a duplicar la velocidad. ¿Preparado?"
             },
-            { 
-                wpm: 300, 
+            {
+                wpm: 300,
                 text: "La velocidad promedio de lectura de un adulto es de aproximadamente trescientas palabras por minuto",
                 message: "¡Excelente! Esta es la velocidad promedio. Vamos a subir un poco más el ritmo."
             },
-            { 
-                wpm: 400, 
+            {
+                wpm: 400,
                 text: "Entrenar tu vista para seguir el texto sin subvocalizar mejora significativamente tu velocidad de lectura",
                 message: "¡Muy bien! Ya estás por encima de la media. ¿Puedes seguir este ritmo?"
             },
-            { 
-                wpm: 500, 
+            {
+                wpm: 500,
                 text: "Los lectores expertos pueden procesar hasta quinientas palabras por minuto manteniendo buena comprensión",
                 message: "¡Impresionante! Estás alcanzando velocidades de lectura avanzada. ¿Listo para más?"
             },
-            { 
-                wpm: 600, 
+            {
+                wpm: 600,
                 text: "A esta velocidad tu cerebro debe trabajar en modo automático procesando la información visual directamente",
                 message: "¡Increíble! Esta velocidad requiere mucha concentración. Vamos a seguir subiendo."
             },
-            { 
-                wpm: 700, 
+            {
+                wpm: 700,
                 text: "Solo lectores muy experimentados pueden mantener la comprensión a esta velocidad tan elevada y exigente",
                 message: "¡Brutal! Estás en territorio de lectura rápida profesional. ¿Puedes más?"
             },
-            { 
-                wpm: 800, 
+            {
+                wpm: 800,
                 text: "A ochocientas palabras por minuto estás leyendo casi tan rápido como puedes pensar conscientemente",
                 message: "¡Extraordinario! Pocas personas llegan a este nivel. Última subida fuerte."
             },
-            { 
-                wpm: 900, 
-                text: "Velocidad extrema requiere años de práctica y entrenamiento intensivo para mantener cualquier nivel de comprensión",
+            {
+                wpm: 900,
+                text: "Velocidad extrema requiere años de práctica y entrenamiento intensivo para mantener cualquier nivel de comprensión lectora",
                 message: "¡Casi imposible! ¿Podrás con el nivel máximo?"
             },
-            { 
-                wpm: 1000, 
+            {
+                wpm: 1000,
                 text: "Mil palabras por minuto es el límite máximo de velocidad manteniendo algún grado de comprensión lectora",
                 message: "¡NIVEL MÁXIMO! Has completado el test. ¿Cuál fue tu límite real?"
             }
@@ -546,6 +601,108 @@
         const startTestBtn = document.getElementById('startTestBtn');
         const nextTestBtn = document.getElementById('nextTestBtn');
         const stopTestBtn = document.getElementById('stopTestBtn');
+
+        // ✅ Ejemplos
+        const examplesList = document.getElementById('examplesList');
+
+        // ✅ Textos de ejemplo (título + texto completo)
+        const exampleArticles = [
+            {
+                title: "El acuerdo histórico de Apple y Google",
+                text: `For years, Apple and Google have had a will-they-won’t-they type of relationship, as far as which AI company Apple would pick to underpin its Siri virtual assistant and give it new AI-fueled personalization and agentic capabilities. Apple has spent the last year or two playing the field, reportedly considering working with OpenAI or Anthropic to support the new Siri. But in a multiyear partnership announcement worthy of a The Bachelor-style finale, Apple announced that it would live happily ever after with Google — that the company’s Gemini AI models will underpin a more personalized version of Apple’s Siri, coming sometime in 2026.
+
+“After careful evaluation, Apple determined that Google’s Al technology provides the most capable foundation for Apple Foundation Models and is excited about the innovative new experiences it will unlock for Apple users,” Google and Apple wrote in a joint statement.
+
+The deal allows Apple to use both Gemini AI and Google’s cloud technology to power its future frontier models and Apple Intelligence features, the companies said, adding that Apple Intelligence “will continue to run on Apple devices and Private Cloud Compute, while maintaining Apple’s industry-leading privacy standards.”
+
+The latter point was highlighted by analysts at Morningstar, who wrote in a note on Monday that the agreement will help Apple’s reputation for security and privacy “remain intact, as it will use Gemini instances on its own servers in its own data centers via its Private Cloud Compute offering for AI processing.” The analysts added that they “expect users will be able to opt in to sharing prompts with Gemini directly, as well.”
+
+But what does this deal actually mean for both companies? It’s not clear yet exactly how the exchange of technology will work. Is Google providing its AI models for Apple to white-label and build upon via Apple’s own AI team, or is Google going to work hand in hand with Apple to ensure a successful end product in the new Siri? We’ll see. But the fact that the company’s joint statement emphasized the “private cloud compute” of it all means that at the very least, Apple’s new deal with Google will be similar from a privacy standpoint to its deal with OpenAI in Siri. Apple will likely prompt a user for their permission before sharing anything directly with Google, William Kerwin, senior equity analyst at Morningstar, told The Verge.
+
+On the surface, Apple and Google might appear to be rival tech giants, but the two companies have had a close, complex relationship for more than a decade. In particular, the two are connected by a mysterious longtime deal that involved Apple products featuring Google as the default search engine on its devices, which at one point was responsible for almost half of Google’s search traffic. Bruce Sewell, Apple’s former general counsel, described the idea of “co-opetition” to The New York Times, saying, “You have brutal competition, but at the same time, you have necessary cooperation.”
+
+Google paid Apple up to $20 billion per year to maintain its position as the default search engine on Apple devices, via Apple’s Safari browser. After a drawn-out antitrust lawsuit, a federal district court judge ruled last fall that Google could continue making such payments. That remedy ruling paved the way for Monday’s announcement — and the “co-opetition” involved means both companies stand to benefit significantly, even though the rumored $1 billion-per-year payment from Apple to Google is in many ways negligible in such a high-value industry.
+
+The comparatively low annual payment helps illustrate how mutually beneficial the partnership is: a win-win for two FAANG companies helping each other bolster the ramparts against the high-flying AI startups that could upset their longtime advantage.
+
+“From Apple’s perspective, it’s certainly a win if you think about the pain that they’ve had in their AI strategy up to this point,” Morningstar’s Kerwin said. “The long and short of it is that they over-promised back in the summer of 2024, and they under-delivered, still, now, what they promised.” He added that the multiyear agreement means that Apple can stop investing in building up a reputation as a frontier model company and focus instead on user experience with a different company’s AI foundation, as well as finally, potentially, becoming a key player in the AI agent providers’ battle for consumer attention — which requires AI agents that are, in theory, so useful that they break into the consumer market in a new and unprecedented way.
+
+On Google’s side of things, Kerwin said, “the win is similar to what they get with their Search in that they become, in the mind of the consumer, a de facto option as an AI model … This will give them a ton more users from the iPhone user base and also really cement that brand image as a go-to AI model that supports all these features.”
+
+Even so, experts say, the deal may end up causing the same scrutiny that Google just finished dealing with.
+
+“I think that it was possible from the Google antitrust trial that Google could have been blocked in advance from making deals like this — [it’s] certainly a possible remedy that could’ve been on the table and was not adopted by the judge,” James Grimmelmann, a professor of digital and information law at Cornell Tech and Cornell Law School, told The Verge. Part of the government’s case in the Search trial was aimed precisely at preventing Google from making similar sweetheart AI deals, though Google largely got its way on that front.
+
+“That’s not to say that this deal will not raise antitrust concerns, and it’s possible that some years from now Google could be facing a new antitrust trial for being the AI provider to Apple in the same way that it was facing antitrust scrutiny for being the search provider,” Grimmelmann said. “If you think back to when Google started showing up as a default search provider and these placement deals started, that was a less concentrated search market. So it could be that the market could evolve in a way that would make a deal like this more problematic over time.”
+
+The details of the arrangement between Apple and Google aren’t quite clear yet, and those details matter from both an antitrust and an AI business standpoint, said Blake Reid, an associate professor of law at the University of Colorado Law School.
+
+“The core concern around the Apple-Google search deal was that Apple sending such a huge volume of queries to Google would provide Google a moat by making it harder for anyone else to build a competitive search engine,” Reid said. “But is Apple going to be sending data in a similar way here? Apple’s initial statement indicates that they will use Google’s technology as more of a white-labeled technology stack that they will customize and deploy as an Apple service. If Google is only getting money from Apple, that makes the antitrust problem less obvious.”
+
+The announcement also comes after Apple’s much-publicized trials and tribulations attempting to upgrade Siri’s AI capabilities to deliver more personalization and agentic task completion. At the company’s Worldwide Developers Conference last June, mentions of Siri were conspicuously absent, aside from the announcement that previously promised updates were running behind schedule.
+
+“We’re continuing our work to deliver the features that make Siri even more personal,” Craig Federighi, Apple’s SVP of software engineering, said during the June event. “This work needed more time to reach our high-quality bar, and we look forward to sharing more about it in the coming year.”
+
+That time, evidently, is now. It’s been a semi-embarrassing year for Apple’s AI strategy: Apple Intelligence summaries of messages that were significantly off the mark, TV ads for new Siri features that ran last year (even though those features still haven’t arrived), and reportedly replacing longtime AI chief John Giannandrea with Mike Rockwell, who previously led Apple’s Vision Pro. So the company is turning things around with a new high-profile Google partnership and a suite of coming AI integrations with other startups.
+
+“Apple is concerned that the rise of AI threatens to go completely around it — that it had a unique relationship with users because of its devices and its hardware-software integration, and that AI threatens to circumvent that relationship in the same way that the browser rise of the web deeply threatened Microsoft’s relationship with its users,” Cornell’s Grimmelmann said. “Apple choosing first to try to develop its own AI models and then to partner with Google here — this is its attempt to remain in that relationship and remain relevant.”`
+            },
+            {
+                title: "Siri es el caballo de Troya de Google",
+                text: `"Siri es el caballo de Troya de Google"
+Apple no tiene IA propia, así que ha elegido novia. Esa novia no es otra que Google, que acaba de firmar un acuerdo con Cupertino para que Gemini sea el centro de futuros desarrollos. No de uno, no. De muchos.
+
+Creíamos que esto solo iba de Siri. El anuncio oficial inicial fue parco. Apple usaría Gemini, pero parecía que lo iba a hacer básicamente para lanzar de una vez su esperada versión de ese Siri personalizado y gobernado por un modelo de IA generativa. Resulta que el acuerdo es más amplio.
+
+Apple deja que Google gaste miles de millones en IA mientras ella se convierte en el distribuidor: la estrategia del envoltorio elegante
+En Xataka
+Apple deja que Google gaste miles de millones en IA mientras ella se convierte en el distribuidor: la estrategia del envoltorio elegante
+Gemini es el caballo de Troya de Google para conquistar Apple. El comunicado de Google revelaba que dicha alianza iba más allá de lo que parecía centrarse en Siri. En una publicación en X, Google afirmaba lo siguiente: 
+
+"Apple y Google han firmado un acuerdo de colaboración plurianual por el que la próxima generación de modelos básicos de Apple se basará en los modelos Gemini y la tecnología en la nube de Google. Estos modelos contribuirán a impulsar las futuras funciones de Apple Intelligence, incluida una Siri más personalizada que llegará este año".
+Eso deja claro que aunque la protagonista inicial será Siri, el alcance del acuerdo puede ser mucho más importante y afectar a todo el ecosistema hardware y software de Apple. Teniendo en cuenta que las opciones de IA de Apple Intelligence y Siri probablemente llegarán a muchos de sus productos y servicios, Gemini, que potenciará todos esos modelos, acabaría siendo parte integral de dicho ecosistema.
+
+Colaboración ante todo. Según indican en The Information, el acuerdo permite a Apple pedirle a Google que modifique algunos aspectos del funcionamiento de Gemini, pero sobre todo permitirá que Apple ajuste ella misma Gemini para que responda a las peticiones de la forma que Apple prefiera. 
+
+Nada de branding de Gemini. Fuentes cercanas a las negociaciones añaden un dato interesante: no se notará que esa IA que usemos en Siri y otros productos de Apple está en realidad basada en Gemini El branding de Google se difuminará, y los usuarios no sabrán qué hay por debajo y cuál es el motor de esas interacciones con la IA.
+
+Una Siri más emotiva. Esa fuente citada en The Information revela además que Siri será más cercana y emotiva. "Históricamente Siri siempre ha tenido dificultades con el apoyo emocional", explica, pero en la versión basada en Gemini, "Siri dará respuestas conversacionales más completas, al igual que ChatGPT y Gemini". Eso, por supuesto, tiene dos caras: la IA se vuelve más "humana", pero para personas vulnerables eso puede acabar siendo peligroso.
+
+Apple Intelligence seguirá ahí. Aunque Gemini se infiltra así en el ecosistema de Apple, ambas empresas aclararon que Apple Intelligence seguirá estando disponible en los dispositivos de Apple y en los servidores de su plataforma Private Cloud Compute. Lo que no está tan claro es que los modelos de Apple Intelligence no acabe estando basados también en Gemini. Sobre todo porque los "modelos fundacionales de Apple se basarán en los modelos de Gemini de Google". A priori eso debería suponer cambios internos en Apple Intelligence a medida que adoptan la tecnología de Google.
+
+La nueva Siri ¿en WWDC? Se espera que la nueva versión de Siri se presente en marzo o abril tras el polémico retraso que se anunció hace ya casi un año. El nuevo asistente de voz debutará teóricamente en iOS 26.4, la actualización que debería llegar esos meses, pero Apple podría aprovechar para anunciarla en la WWDC 2026, dos años después de aquel anuncio incial que acabó convirtiéndose en un fiasco: Apple prometió cosas que no ha llegado a cumplir hasta ahora, pero puede que Gemini se convierta por fin en la solución a ese problema.`
+            },
+            {
+                title: "Cómo mejorar tu velocidad de lectura en 10 minutos al día",
+                text: `La lectura rápida no va solo de “ir más rápido”, sino de entrenar la atención y la percepción. Empieza con sesiones cortas: 2 minutos a un ritmo cómodo, 1 minuto un poco más rápido, y repite 3 veces. Evita vocalizar: en lugar de “decir” las palabras en tu cabeza, intenta ver grupos de 2–4 palabras. Usa el puntero visual (dedo o cursor) para marcar el ritmo y mantener el foco. Termina cada sesión con un mini-resumen de 2 líneas: así subes velocidad sin perder comprensión.`
+            }
+        ];
+
+        function renderExamples() {
+            examplesList.innerHTML = "";
+            exampleArticles.forEach((article) => {
+                const btn = document.createElement('button');
+                btn.type = "button";
+                btn.className = "example-item";
+                btn.textContent = article.title;
+
+                btn.addEventListener('click', () => {
+                    // En modo test, inputSection está oculto, así que el usuario no puede clicar aquí.
+                    stopReading();
+                    resetDisplay();
+
+                    textInput.disabled = false;
+                    textInput.value = article.text;
+
+                    textInput.focus();
+                    textInput.setSelectionRange(0, 0);
+                });
+
+                examplesList.appendChild(btn);
+            });
+        }
+
+        renderExamples();
 
         // Event Listeners para cambio de modo
         normalModeBtn.addEventListener('click', () => {
@@ -601,12 +758,12 @@
             wpm = level.wpm;
             speedDisplay.textContent = wpm;
             speedSlider.value = wpm;
-            
+
             testMessage.textContent = level.message;
             startTestBtn.disabled = true;
             nextTestBtn.disabled = true;
             stopTestBtn.disabled = false;
-            
+
             startReading();
         }
 
@@ -629,7 +786,7 @@
         speedSlider.addEventListener('input', (e) => {
             wpm = parseInt(e.target.value);
             speedDisplay.textContent = wpm;
-            
+
             if (isPlaying && !isPaused && !isTestMode) {
                 stopReading();
                 startReading();
@@ -666,10 +823,10 @@
         function startReading() {
             isPlaying = true;
             isPaused = false;
-            
+
             readerDisplay.classList.remove('waiting');
             progressContainer.classList.add('active');
-            
+
             if (isTestMode) {
                 startTestBtn.disabled = true;
                 nextTestBtn.disabled = true;
@@ -683,7 +840,7 @@
             }
 
             const delay = 60000 / wpm;
-            
+
             intervalId = setInterval(() => {
                 if (currentIndex < words.length) {
                     displayWord(words[currentIndex]);
@@ -704,7 +861,7 @@
             isPaused = true;
             isPlaying = false;
             clearInterval(intervalId);
-            
+
             startBtn.disabled = false;
             pauseBtn.disabled = true;
             startBtn.textContent = 'Continuar';
@@ -718,7 +875,7 @@
             isPlaying = false;
             isPaused = false;
             clearInterval(intervalId);
-            
+
             if (!isTestMode) {
                 startBtn.disabled = false;
                 pauseBtn.disabled = true;
@@ -740,7 +897,7 @@
         function displayWord(word) {
             const length = word.length;
             const focusIndex = Math.floor(length / 3);
-            
+
             let html = '';
             for (let i = 0; i < word.length; i++) {
                 if (i === focusIndex) {
@@ -749,7 +906,7 @@
                     html += word[i];
                 }
             }
-            
+
             wordDisplay.innerHTML = html;
         }
 
